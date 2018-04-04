@@ -1,10 +1,17 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SDirectory extends SFile {
 
-    private ArrayList<SFile> mFileList = new ArrayList<>();
+
+    /**
+     * 通过一个Manager管理
+     */
+
+    private FileListManager manager = new FileListManager();
+
 
     public SDirectory(File file) throws IOException {
         super(file);
@@ -15,15 +22,9 @@ public class SDirectory extends SFile {
         }
     }
 
-    public ArrayList<SFile> getFileList(){
-        return mFileList;
+    public FileListManager getManager() {
+        return manager;
     }
-
-    public void setFileList(ArrayList<SFile> list){
-        mFileList = list;
-    }
-
-
 
 
 }

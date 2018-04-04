@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Logger {
 
@@ -7,12 +8,17 @@ public class Logger {
 
     }
 
-    public void saveLogFile(String dirName, ArrayList<SFile> files) throws IOException {
+    public void saveLogFile(String dirName, List<SDirectory> dirs) throws IOException {
         System.out.println("Current directory:"+dirName);
-        File file  = new File(dirName+"\\logfile.txt");
+        File file  = new File("logfile.txt");
         StringBuilder contentBuilder = new StringBuilder();
-        for (SFile sfile:files){
-            contentBuilder.append(sfile.getFileInfo());
+        for (SDirectory directory : dirs){
+            List<SFile> tempList = directory.getManager().getFileList();
+            contentBuilder.append("----\t"+directory.getFileInfo()+'\n');
+            for (SFile sfile : tempList){
+                contentBuilder.append(sfile.getFileInfo()+'\n');
+            }
+
         }
         file.createNewFile(); // 创建新文件
         BufferedWriter out = new BufferedWriter(new FileWriter(file));

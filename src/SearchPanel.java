@@ -1,20 +1,25 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class SearchPanel {
+    /**
+     * 没有界面之前暂时作为主程序
+     * @param args
+     */
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter a file path below");
         String path = scanner.next();
         SearchPanel panel = new SearchPanel();
-        ArrayList<SFile> files = new ArrayList<>();
+        List<SDirectory> dirs = new ArrayList<>();
 
         //dir printing and retrive filelist
         if (!path.isEmpty()){
             try {
-                panel.showDir(files,path,0);
+                panel.showDir(dirs,path,0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -23,7 +28,7 @@ public class SearchPanel {
         //log saving
         Logger logger = new Logger();
         try {
-            logger.saveLogFile(path,files);
+            logger.saveLogFile(path,dirs);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -31,7 +36,7 @@ public class SearchPanel {
     }
 
 
-    private void showDir(ArrayList<SFile> files ,String dirName, int depth) throws IOException {
+    private void showDir(List<SDirectory> dirs ,String dirName, int depth) throws IOException {
 
 
         /**
@@ -48,7 +53,7 @@ public class SearchPanel {
         if (!dirFile.isDirectory()) {
             if (dirFile.isFile()) {
                 SFile sfile = new SFile(dirFile);
-                files.add(sfile);
+                dirs.add((SDirectory) sfile);
                 System.out.println(sfile.getFilePath());
             }
             return;
@@ -60,8 +65,9 @@ public class SearchPanel {
         }
         System.out.print("|--");
         System.out.println(dirFile.getName());
+
         SDirectory directory = new SDirectory(dirFile);
-        files.add(directory);
+        dirs.add(directory);
 
 
         //获取此目录下的所有文件名与目录名
@@ -76,7 +82,7 @@ public class SearchPanel {
                 //如果是一个目录，搜索深度depth++，输出目录名后，进行递归
                 if (file.isDirectory()) {
                     //递归
-                    showDir(files,file.getCanonicalPath(),currentDepth);
+                    showDir(dirs,file.getCanonicalPath(),currentDepth);
                 }else{
                     //如果是文件，则直接输出文件名
                     for (int j = 0; j < currentDepth; j++) {
@@ -87,7 +93,7 @@ public class SearchPanel {
 
                     //使用文件类保存信息
                     SFile sfile = new SFile(file);
-                    files.add(sfile);
+                    directory.getManager().getFileList().add(sfile);
 
                 }
             }
