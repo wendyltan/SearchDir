@@ -1,3 +1,5 @@
+
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,14 +18,41 @@ public class SearchPanel {
         SearchPanel panel = new SearchPanel();
         List<SDirectory> dirs = new ArrayList<>();
 
-        //dir printing and retrive filelist
+        // retrive filelist
         if (!path.isEmpty()){
             try {
-                panel.showDir(dirs,path,0);
+                panel.retrieveInfos(dirs,path,0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+        //sort and show
+        System.out.println("Please choose sort method:(1/2/3 for alpha,type,date sort");
+        Scanner choice = new Scanner(System.in);
+        Sort sort=null;
+        switch (choice.nextInt()){
+            case 1:
+                sort = new AlphaSort();
+                break;
+            case 2:
+                sort = new TypeSort();
+                break;
+            case 3:
+                sort = new DateSort();
+                break;
+            default:
+                sort = new AlphaSort();
+                break;
+        }
+        if (sort!=null){
+            for (SDirectory dir : dirs){
+                System.out.print("\\---"+dir.getFileName()+'\n');
+                dir.setSortCriteria(sort);
+                dir.getSortCriteria().sort(dir.getManager().getFileList());
+            }
+        }
+
 
         //log saving
         Logger logger = new Logger();
@@ -36,7 +65,7 @@ public class SearchPanel {
     }
 
 
-    private void showDir(List<SDirectory> dirs ,String dirName, int depth) throws IOException {
+    private void retrieveInfos(List<SDirectory> dirs , String dirName, int depth) throws IOException {
 
 
         /**
@@ -54,17 +83,17 @@ public class SearchPanel {
             if (dirFile.isFile()) {
                 SFile sfile = new SFile(dirFile);
                 dirs.add((SDirectory) sfile);
-                System.out.println(sfile.getFilePath());
+//                System.out.println(sfile.getFilePath());
             }
             return;
         }
 
 
         for (int j = 0; j < depth; j++) {
-            System.out.print("  ");
+//            System.out.print("  ");
         }
-        System.out.print("|--");
-        System.out.println(dirFile.getName());
+//        System.out.print("|--");
+//        System.out.println(dirFile.getName());
 
         SDirectory directory = new SDirectory(dirFile);
         dirs.add(directory);
@@ -82,14 +111,14 @@ public class SearchPanel {
                 //如果是一个目录，搜索深度depth++，输出目录名后，进行递归
                 if (file.isDirectory()) {
                     //递归
-                    showDir(dirs,file.getCanonicalPath(),currentDepth);
+                    retrieveInfos(dirs,file.getCanonicalPath(),currentDepth);
                 }else{
                     //如果是文件，则直接输出文件名
                     for (int j = 0; j < currentDepth; j++) {
-                        System.out.print("   ");
+//                        System.out.print("   ");
                     }
-                    System.out.print("|--");
-                    System.out.println(name);
+//                    System.out.print("|--");
+//                    System.out.println(name);
 
                     //使用文件类保存信息
                     SFile sfile = new SFile(file);

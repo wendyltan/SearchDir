@@ -17,8 +17,5 @@ public class FileListManager {
         return mFileList;
     }
 
-    public void setFileList(List<SFile> list){
-        mFileList = list;
-    }
 
 }

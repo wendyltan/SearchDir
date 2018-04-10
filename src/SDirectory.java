@@ -1,7 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SDirectory extends SFile {
 
@@ -11,7 +9,15 @@ public class SDirectory extends SFile {
      */
 
     private FileListManager manager = new FileListManager();
+    private Sort sortCriteria;
 
+    public void setSortCriteria(Sort sortCriteria) {
+        this.sortCriteria = sortCriteria;
+    }
+
+    public Sort getSortCriteria() {
+        return sortCriteria;
+    }
 
     public SDirectory(File file) throws IOException {
         super(file);
