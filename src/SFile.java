@@ -10,7 +10,8 @@ public class SFile {
      * 文件的基本信息
      */
     private String fileName;
-    private String fileSize;
+    private String fileSizeStr;
+    private long fileSize;
     private String lastEditStr;
     private String fileType;
     private String filePath;
@@ -19,16 +20,20 @@ public class SFile {
 
     public SFile(File file) throws IOException {
         fileName = file.getName();
-        fileSize = getPrintSize(file.length());
+
+        fileSize = file.length();
+        fileSizeStr = getPrintSize(file.length());
+
         SimpleDateFormat dateformat=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒 E ");
         lastEditStr = dateformat.format(new Date(file.lastModified()));
         lastEditDate = file.lastModified();
+
         fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
         filePath = file.getCanonicalPath();
     }
 
-    public void setFileSize(String fileSize) {
-        this.fileSize = fileSize;
+    public void setFileSizeStr(String fileSizeStr) {
+        this.fileSizeStr = fileSizeStr;
     }
 
     public void setFileType(String fileType) {
@@ -56,8 +61,18 @@ public class SFile {
         this.fileName = fileName;
     }
 
+    public long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+
     public String getFileInfo(){
-        return String.format("%s,%s,%s,%s\n",fileName,fileSize,fileType,lastEditStr);
+//        if (fileType=="directory")
+//            return String.format("%s,%s,%s\n",fileName,fileType,lastEditStr);
+        return String.format("%s,%s,%s,%s\n",fileName, fileSizeStr,fileType,lastEditStr);
     }
 
     public String getPrintSize(long size) {

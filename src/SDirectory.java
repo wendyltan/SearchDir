@@ -19,18 +19,19 @@ public class SDirectory extends SFile {
         return sortCriteria;
     }
 
+    public FileListManager getManager() {
+        return manager;
+    }
+
     public SDirectory(File file) throws IOException {
         super(file);
         if (file.isDirectory()){
             setFileName(file.getCanonicalPath());
             setFileType("directory");
-            setFileSize("None");
         }
     }
 
-    public FileListManager getManager() {
-        return manager;
-    }
+
 
 
 }

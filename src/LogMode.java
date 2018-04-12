@@ -1,12 +1,10 @@
-import java.io.*;
-import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
-public class Logger {
-
-    public void getLog(){
-
-    }
+public class LogMode extends Mode {
 
     public void saveLogFile(String dirName, List<SDirectory> dirs) throws IOException {
         System.out.println("Current directory:"+dirName);
@@ -14,9 +12,9 @@ public class Logger {
         StringBuilder contentBuilder = new StringBuilder();
         for (SDirectory directory : dirs){
             List<SFile> tempList = directory.getManager().getFileList();
-            contentBuilder.append("----\t"+directory.getFileInfo()+'\n');
+            contentBuilder.append(directory.getFileInfo()+'\n');
             for (SFile sfile : tempList){
-                contentBuilder.append(sfile.getFileInfo()+'\n');
+                contentBuilder.append("----\t"+sfile.getFileInfo()+'\n');
             }
 
         }
@@ -29,7 +27,4 @@ public class Logger {
 
     }
 
-    public void compareLogFile(String dirName,Comparer comparer){
-
-    }
 }

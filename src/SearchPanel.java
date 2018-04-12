@@ -17,6 +17,7 @@ public class SearchPanel {
         String path = scanner.next();
         SearchPanel panel = new SearchPanel();
         List<SDirectory> dirs = new ArrayList<>();
+        LogMode mode = new LogMode();
 
         // retrive filelist
         if (!path.isEmpty()){
@@ -27,41 +28,47 @@ public class SearchPanel {
             }
         }
 
-        //sort and show
-        System.out.println("Please choose sort method:(1/2/3 for alpha,type,date sort");
-        Scanner choice = new Scanner(System.in);
-        Sort sort=null;
-        switch (choice.nextInt()){
-            case 1:
-                sort = new AlphaSort();
-                break;
-            case 2:
-                sort = new TypeSort();
-                break;
-            case 3:
-                sort = new DateSort();
-                break;
-            default:
-                sort = new AlphaSort();
-                break;
-        }
-        if (sort!=null){
+        //opearate only if dirs is not empty
+        if (!dirs.isEmpty()){
+            System.out.println("Please choose sort method:(1/2/3 for alpha,type,date sort");
+            Scanner choice = new Scanner(System.in);
+            Sort sort=null;
+            switch (choice.nextInt()){
+                case 1:
+                    sort = new AlphaSort();
+                    break;
+                case 2:
+                    sort = new TypeSort();
+                    break;
+                case 3:
+                    sort = new DateSort();
+                    break;
+                default:
+                    sort = new AlphaSort();
+                    break;
+            }
+            //sort and show
             for (SDirectory dir : dirs){
                 System.out.print("\\---"+dir.getFileName()+'\n');
                 dir.setSortCriteria(sort);
                 dir.getSortCriteria().sort(dir.getManager().getFileList());
             }
+
+            //log saving
+            try {
+                mode.saveLogFile(path,dirs);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //log reading
+            mode.getLogData();
+
+
         }
 
 
-        //log saving
-        Logger logger = new Logger();
-        try {
-            logger.saveLogFile(path,dirs);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
 
@@ -123,6 +130,12 @@ public class SearchPanel {
                     //使用文件类保存信息
                     SFile sfile = new SFile(file);
                     directory.getManager().getFileList().add(sfile);
+                    long size = 0;
+                    for (SFile f: directory.getManager().getFileList()){
+                        size = size+f.getFileSize();
+                    }
+                    directory.setFileSize(size);
+                    directory.setFileSizeStr(directory.getPrintSize(size));
 
                 }
             }
