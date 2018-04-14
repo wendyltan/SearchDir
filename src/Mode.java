@@ -1,12 +1,27 @@
 import java.io.*;
 
 public class Mode {
+    public static final int ORI_LOG = 0;
+    public static final int NEW_LOG = 1;
 
-    private BufferedReader reader=null;
 
-    public void getLogData(){
+    public BufferedReader getLogData(int log_type){
+        BufferedReader reader = null;
         System.out.println("Reading from logfile:");
-        File file = new File("logfile.txt");
+        File file;
+        switch (log_type){
+            case ORI_LOG:
+                file = new File("ori.txt");
+                break;
+            case NEW_LOG:
+                file = new File("new.txt");
+                break;
+            default:
+                System.out.println("Invalid type,showing default old log:...");
+                file = new File("ori.txt");
+                break;
+        }
+
         try {
             reader = new BufferedReader(new FileReader(file));
             System.out.println("Log file read success!");
@@ -15,9 +30,11 @@ public class Mode {
             e.printStackTrace();
         }
 
+        return reader;
+
     }
 
-    public void printLog(){
+    public void printLog(BufferedReader reader){
         try{
             String tempString = null;
             int line = 1;

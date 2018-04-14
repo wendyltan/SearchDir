@@ -8,7 +8,7 @@ public class LogMode extends Mode {
 
     public void saveLogFile(String dirName, List<SDirectory> dirs) throws IOException {
         System.out.println("Current directory:"+dirName);
-        File file  = new File("logfile.txt");
+        File file  = new File("ori.txt");
         StringBuilder contentBuilder = new StringBuilder();
         for (SDirectory directory : dirs){
             List<SFile> tempList = directory.getManager().getFileList();
