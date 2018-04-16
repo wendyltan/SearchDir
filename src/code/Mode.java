@@ -1,3 +1,5 @@
+package code;
+
 import java.io.*;
 
 public class Mode {

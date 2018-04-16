@@ -1,6 +1,7 @@
+package code;
+
 import java.io.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class CompareMode extends Mode {
 
@@ -27,9 +28,9 @@ public class CompareMode extends Mode {
                 break;
             }
             if (type==NEW_BIGGER){
-                lineStr = "+\t" +" "+searchText+ "=#ADD IN NEW#\n";
+                lineStr = "+       :  " +" "+searchText+ "=#ADD IN NEW#\n";
             }else if(type==OLD_BIGGER){
-                lineStr = "-\t" +" "+searchText+ "=#DELETE IN ORIGINAL#\n";
+                lineStr = "-       :  " +" "+searchText+ "=#DELETE IN ORIGINAL#\n";
             }
 
         }

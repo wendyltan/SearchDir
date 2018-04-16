@@ -1,4 +1,4 @@
-
+package code;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class SearchPanel {
                 e.printStackTrace();
             }
 //            //log reading
-//            mode.printLog(mode.getLogData(Mode.ORI_LOG));
+//            mode.printLog(mode.getLogData(code.Mode.ORI_LOG));
         }
 
 
@@ -58,7 +58,7 @@ public class SearchPanel {
             if (panel.sortAndShow(dirs)){
                 try {
                     compareMode.compareLogFile(dirs);
-//                    mode.printLog(mode.getLogData(Mode.NEW_LOG));
+//                    mode.printLog(mode.getLogData(code.Mode.NEW_LOG));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -69,7 +69,7 @@ public class SearchPanel {
 
     }
 
-    private boolean sortAndShow(List<SDirectory> dirs){
+    public boolean sortAndShow(List<SDirectory> dirs){
         //opearate only if dirs is not empty
         if (!dirs.isEmpty()) {
 //            System.out.println("Please choose sort method:(1/2/3 for alpha,type,date sort");
@@ -77,16 +77,16 @@ public class SearchPanel {
             Sort sort ;
 //            switch (choice.nextInt()) {
 //                case 1:
-//                    sort = new AlphaSort();
+//                    sort = new code.AlphaSort();
 //                    break;
 //                case 2:
-//                    sort = new TypeSort();
+//                    sort = new code.TypeSort();
 //                    break;
 //                case 3:
-//                    sort = new DateSort();
+//                    sort = new code.DateSort();
 //                    break;
 //                default:
-//                    sort = new AlphaSort();
+//                    sort = new code.AlphaSort();
 //                    break;
 //            }
             sort = new AlphaSort();
@@ -102,7 +102,7 @@ public class SearchPanel {
     }
 
 
-    private void retrieveInfos(List<SDirectory> dirs , String dirName, int depth) throws IOException {
+    public void retrieveInfos(List<SDirectory> dirs , String dirName, int depth) throws IOException {
 
 
         /**
