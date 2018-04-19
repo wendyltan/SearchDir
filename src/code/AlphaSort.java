@@ -7,15 +7,9 @@ import java.util.List;
 
 public class AlphaSort implements Sort {
 
-    private StringBuilder builder;
-
-    public void setBuilder(StringBuilder builder) {
-        this.builder = builder;
-    }
-
 
     @Override
-    public StringBuilder sort(List<SFile> fileList) {
+    public void sort(List<SFile> fileList) {
 
 
         fileList.sort(new Comparator<SFile>() {
@@ -27,10 +21,8 @@ public class AlphaSort implements Sort {
         });
 
         for (SFile file:fileList){
-//            System.out.println("\t"+file.getFileInfo());
-           builder.append("\t").append(file.getFileInfo());
+            System.out.println("\t"+file.getFileInfo());
         }
 
-        return builder;
     }
 }

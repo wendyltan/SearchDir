@@ -3,7 +3,7 @@ package code;
 import java.io.*;
 import java.util.List;
 
-public class CompareMode extends Mode {
+public class CompareMode extends ModeFactory {
 
     private static final int NEW_BIGGER = 0;
     private static final int OLD_BIGGER = 1;
@@ -51,7 +51,7 @@ public class CompareMode extends Mode {
             //将第二次的保存到一个log文件
             StringBuilder contentBuilder = new StringBuilder();
             for (SDirectory directory : dirs){
-                List<SFile> tempList = directory.getManager().getFileList();
+                List<SFile> tempList = FileListManager.getFileList(directory.getFilePath());
                 contentBuilder.append(directory.getFileInfo()+'\n');
                 for (SFile sfile : tempList){
                     contentBuilder.append("----\t"+sfile.getFileInfo()+'\n');
@@ -123,4 +123,5 @@ public class CompareMode extends Mode {
         }
 
     }
+
 }

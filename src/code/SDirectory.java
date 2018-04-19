@@ -10,7 +10,6 @@ public class SDirectory extends SFile {
      * 通过一个Manager管理
      */
 
-    private FileListManager manager = new FileListManager();
     private Sort sortCriteria;
 
     public void setSortCriteria(Sort sortCriteria) {
@@ -21,9 +20,6 @@ public class SDirectory extends SFile {
         return sortCriteria;
     }
 
-    public FileListManager getManager() {
-        return manager;
-    }
 
     public SDirectory(File file) throws IOException {
         super(file);

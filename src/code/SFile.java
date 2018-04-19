@@ -71,6 +71,10 @@ public class SFile {
         this.fileSize = fileSize;
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
     public String getFileInfo(){
 //        if (fileType=="directory")
 //            return String.format("%s,%s,%s\n",fileName,fileType,lastEditStr);

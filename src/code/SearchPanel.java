@@ -7,22 +7,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SearchPanel {
-    /**
-     * 没有界面之前暂时作为主程序
-     * @param args
-     */
+
 
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter a file path below");
         String path = scanner.next();
-
         SearchPanel panel = new SearchPanel();
 
         List<SDirectory> dirs = new ArrayList<>();
-
-        LogMode mode = new LogMode();
-        CompareMode compareMode = new CompareMode();
 
         // retrive filelist
         if (!path.isEmpty()){
@@ -32,16 +25,18 @@ public class SearchPanel {
                 e.printStackTrace();
             }
         }
+
         //if dirs not empty
         if(panel.sortAndShow(dirs)){
             //log saving
+            LogMode mode = (LogMode) ModeFactory.getMode("Log");
             try {
                 mode.saveLogFile(path,dirs);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 //            //log reading
-//            mode.printLog(mode.getLogData(code.Mode.ORI_LOG));
+//            mode.printLog(mode.getLogData(code.ModeFactory.ORI_LOG));
         }
 
 
@@ -56,9 +51,10 @@ public class SearchPanel {
                 e.printStackTrace();
             }
             if (panel.sortAndShow(dirs)){
+                CompareMode compareMode = (CompareMode) ModeFactory.getMode("Compare");
                 try {
                     compareMode.compareLogFile(dirs);
-//                    mode.printLog(mode.getLogData(code.Mode.NEW_LOG));
+//                    mode.printLog(mode.getLogData(code.ModeFactory.NEW_LOG));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -94,7 +90,7 @@ public class SearchPanel {
             for (SDirectory dir : dirs) {
                 System.out.print("\\---" + dir.getFileName() + '\n');
                 dir.setSortCriteria(sort);
-                dir.getSortCriteria().sort(dir.getManager().getFileList());
+                dir.getSortCriteria().sort(FileListManager.getFileList(dir.getFilePath()));
             }
             return true;
         }
@@ -109,6 +105,7 @@ public class SearchPanel {
          * 使用此函数获得指定目录下的信息并显示s。
          */
         //获取pathName的File对象
+
         File dirFile = new File(dirName);
         //判断该文件或目录是否存在，不存在时在控制台输出提醒
         if (!dirFile.exists()) {
@@ -124,15 +121,17 @@ public class SearchPanel {
             return;
         }
 
-
         SDirectory directory = new SDirectory(dirFile);
         dirs.add(directory);
 
+        List<SFile> files = new ArrayList<>();
+        FileListManager.addFileList(directory.getFilePath(),files);
 
         //获取此目录下的所有文件名与目录名
         String[] fileList = dirFile.list();
         int currentDepth=depth+1;
         if (fileList!=null){
+
             for (int i = 0; i < fileList.length; i++) {
                 //遍历文件目录
                 String item = fileList[i];
@@ -146,16 +145,19 @@ public class SearchPanel {
 
                     //使用文件类保存信息
                     SFile sfile = new SFile(file);
-                    directory.getManager().getFileList().add(sfile);
+                    FileListManager.updateFileList(directory.getFilePath(),sfile);
+
                     //计算目录类的占空间大小
                     long size = 0;
-                    for (SFile f: directory.getManager().getFileList()){
-                        size = size+f.getFileSize();
+
+                    for (SFile f: FileListManager.getFileList(directory.getFilePath())){
+                        size = size +f.getFileSize();
                     }
                     directory.setFileSize(size);
                     directory.setFileSizeStr(directory.getPrintSize(size));
 
                 }
+
             }
         }
 

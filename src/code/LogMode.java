@@ -1,19 +1,16 @@
 package code;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
-public class LogMode extends Mode {
+public class LogMode extends ModeFactory {
 
     public void saveLogFile(String dirName, List<SDirectory> dirs) throws IOException {
         System.out.println("Current directory:"+dirName);
         File file  = new File("ori.txt");
         StringBuilder contentBuilder = new StringBuilder();
         for (SDirectory directory : dirs){
-            List<SFile> tempList = directory.getManager().getFileList();
+            List<SFile> tempList = FileListManager.getFileList(directory.getFilePath());
             contentBuilder.append(directory.getFileInfo()+'\n');
             for (SFile sfile : tempList){
                 contentBuilder.append("----\t"+sfile.getFileInfo()+'\n');
