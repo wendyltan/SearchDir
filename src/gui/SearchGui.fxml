@@ -13,27 +13,28 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Pane?>
 
+<?import javafx.scene.control.CheckMenuItem?>
 <FlowPane columnHalignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" orientation="VERTICAL" prefHeight="562.0" prefWidth="897.0" rowValignment="TOP" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SearchGuiHandler">
    <children>
       <MenuBar>
         <menus>
           <Menu mnemonicParsing="false" text="Mode">
             <items>
-                  <MenuItem fx:id="compare_menu" mnemonicParsing="false" text="Compare Mode" />
-              <MenuItem fx:id="log_menu" mnemonicParsing="false" text="Log Mode" />
+                  <CheckMenuItem fx:id="compare_menu" mnemonicParsing="false" onAction="#onModeCompare" text="Compare Mode" />
+                  <CheckMenuItem fx:id="log_menu" mnemonicParsing="false" onAction="#onModeLog" text="Log Mode" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem fx:id="help_menu" mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="help_menu" mnemonicParsing="false" onAction="#onHelp" text="About" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
       <FlowPane prefHeight="439.0" prefWidth="906.0">
          <children>
-            <TextArea fx:id="oldLogTextarea" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="438.0" prefWidth="452.0" />
-            <TextArea fx:id="newLogTextarea" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="438.0" prefWidth="454.0" />
+            <TextArea fx:id="leftLogTextarea" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="438.0" prefWidth="452.0" />
+            <TextArea fx:id="rightLogTextarea" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="438.0" prefWidth="454.0" />
          </children>
       </FlowPane>
       <FlowPane prefHeight="33.0" prefWidth="906.0">
@@ -52,13 +53,15 @@
       <Separator prefWidth="200.0" />
       <Pane prefHeight="29.0" prefWidth="906.0">
          <children>
-            <Button fx:id="saveLogBtn" layoutX="793.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogSave" prefHeight="30.0" prefWidth="113.0" text="save log" />
+            <Button fx:id="compareLogBtn" layoutX="793.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleCompare" prefHeight="30.0" prefWidth="113.0" text="compare" />
             <Button fx:id="readLogBtn" layoutX="657.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogRead" prefHeight="30.0" prefWidth="113.0" text="read log" />
             <ChoiceBox fx:id="chooseSort" layoutX="164.0" layoutY="-1.0" prefWidth="150.0" />
             <Label layoutY="-2.0" prefHeight="33.0" prefWidth="162.0" text="Current sort method">
                <padding>
                   <Insets top="3.0" />
                </padding></Label>
+            <Label layoutX="360.0" prefHeight="29.0" prefWidth="69.0" text="ShowOn" />
+            <ChoiceBox fx:id="chooseShow" layoutX="467.0" layoutY="-1.0" prefWidth="150.0" />
          </children>
       </Pane>
       <Separator prefWidth="200.0" />
