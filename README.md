@@ -17,13 +17,14 @@ OOA&D 课程设计目录搜索差异比较程序
 
 ## 运行截图
 
-主界面：
+### 主界面：
 ![main](/screenshot/main.png)
 
-关于界面：
+
+### 关于界面：
 ![about](/screenshot/about.png)
 
-差异比较：
+### 差异比较：
 ![compare](/screenshot/compare.png)
 
 ## 当前功能
