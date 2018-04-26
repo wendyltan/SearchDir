@@ -13,11 +13,18 @@ OOA&D 课程设计目录搜索差异比较程序
 - 使用模式工厂ModeFactory，并让**日志模式**和**差异模式**继承它
 
 ## 使用方法（目前）
-- 直接运行`SearchPanel`类里面的内容
-- 或者，运行`SearchGui`的内容
+- 运行`SearchGui`
 
 ## 运行截图
-暂无
+
+主界面：
+![main](/screenshot/main.png)
+
+关于界面：
+![about](/screenshot/about.png)
+
+差异比较：
+![compare](/screenshot/compare.png)
 
 ## 当前功能
 - 给出目录，可以遍历目录并打印排序后的目录结构
@@ -26,6 +33,6 @@ OOA&D 课程设计目录搜索差异比较程序
 - 可以进行新旧日志文件的差异比较并输出到`differ`文件中
 
 ## TODO
-+ 完善界面的功能，使其完全
-+ 重新审视SearchPanel的功能，让其结构更好
++ ~~完善界面的功能，使其完全~~
++ ~~重新审视SearchPanel的功能，让其结构更好~~
 + 打包程序并且生成可执行的exe文件

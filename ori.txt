@@ -30000,17 +30000,3 @@ G:\System Volume Information,88B,directory,2015年12月28日 20时24分50秒 星
 
 ----	WPSettings.dat,12B,dat,2017年09月12日 09时29分24秒 星期二 
 
-C:\Users\Wendy\Desktop\daily,6KB,directory,2018年03月30日 09时43分37秒 星期五 
-
-----	CCleaner.lnk,834B,lnk,2017年11月04日 15时34分27秒 星期六 
-
-----	Dism++x64.exe.lnk,1KB,lnk,2017年12月21日 10时52分57秒 星期四 
-
-----	MSDEV3.EXE.lnk,1KB,lnk,2016年12月04日 20时21分34秒 星期日 
-
-----	TIM.lnk,1KB,lnk,2017年06月28日 19时48分41秒 星期三 
-
-----	WinThruster.lnk,1KB,lnk,2017年11月29日 07时49分29秒 星期三 
-
-----	微信.lnk,536B,lnk,2016年12月04日 05时45分25秒 星期日 
-

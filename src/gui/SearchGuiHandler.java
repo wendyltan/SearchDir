@@ -55,8 +55,15 @@ public class SearchGuiHandler {
     private static final int LEFT_WINDOW = 0 ;
     private static final int RIGHT_WINDOW = 1;
 
+    private static boolean FIRST_SEARCH =true;
+    private static boolean PATH_THE_SAME = true;
+
+
     @FXML
     public void initialize() {
+        /**
+         * doing some initialize job with gui controls
+         */
 
         ObservableList<String> availableSorts = FXCollections.observableArrayList("AlphaSort", "TypeSort","DateSort");
         chooseSort.setItems(availableSorts);
@@ -120,11 +127,18 @@ public class SearchGuiHandler {
     protected void handleSearch(ActionEvent event) {
 
         current.clear();
+        dirs.clear();
+        boolean ori_or_new;
+        if (FIRST_SEARCH){
+            ori_or_new = false;
+            FIRST_SEARCH = false;
+        }else{
+            ori_or_new = checkIfPathChange();
+        }
 
         //假设现在输入的目录格式都是正确的
         path = pathText.getText();
         //以后加入path的有效性鉴别函数
-
         // retrive filelist
         if (!path.isEmpty()) {
             try {
@@ -142,33 +156,43 @@ public class SearchGuiHandler {
             mode = ModeFactory.getMode("Log");
             LogMode log = (LogMode) mode;
             try {
-                log.saveLogFile(path,dirs);
+                if (!ori_or_new){
+                    log.saveLogFile(path,dirs,ModeFactory.ORI_LOG);
+                }else{
+                    log.saveLogFile(path,dirs,ModeFactory.NEW_LOG);
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             //read log and show
-            BufferedInputStream inputStream = mode.getLogData(ModeFactory.ORI_LOG);
-            try{
-
-                int bytesRead = 0;
-                byte[] buff = new byte[4096];
-                while ((bytesRead = inputStream.read(buff)) != -1 ) {
-                    // 显示行号
-                    String chunk = new String(buff, 0, bytesRead);
-                    current.appendText(chunk);
-                }
-
-                inputStream.close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            BufferedInputStream inputStream;
+            if (!ori_or_new)
+                inputStream = mode.getLogData(ModeFactory.ORI_LOG);
+            else
+                inputStream = mode.getLogData(ModeFactory.NEW_LOG);
+            readFile(inputStream);
 
             long after = System.currentTimeMillis();
             hintLb.setText("Consume time: "+ String.valueOf((after-before)/ 1000D) + "s");
 
         }
+    }
+
+    private boolean checkIfPathChange() {
+        if (!path.isEmpty()&&path.equals(pathText.getText())){
+            //directory haven't change,write log to new
+            PATH_THE_SAME = true;
+            return true;
+        }else if (!path.equals(pathText.getText())){
+            //directory change,still write into ori
+            PATH_THE_SAME = false;
+            return false;
+        }else{
+            hintLb.setText("Something is wrong!");
+        }
+        return false;
     }
 
     /**
@@ -196,8 +220,10 @@ public class SearchGuiHandler {
     private TextArea chooseLog(int windowId){
         switch (windowId){
             case LEFT_WINDOW:
+                chooseShow.setValue("left");
                 return leftLogTextarea;
             case RIGHT_WINDOW:
+                chooseShow.setValue("right");
                 return rightLogTextarea;
         }
         return null;
@@ -213,24 +239,16 @@ public class SearchGuiHandler {
         fileChooser.setTitle("Choose log file");
         File logFile = fileChooser.showOpenDialog(SearchGui.getGuiStage());
         if (logFile!=null){
+            BufferedInputStream inputStream = null;
             try {
-                BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(logFile));
-                int bytesRead = 0;
-                byte[] buff = new byte[4096];
-                long before = System.currentTimeMillis();
-                while ((bytesRead = inputStream.read(buff)) != -1 ) {
-                    // 显示行号
-                    String chunk = new String(buff, 0, bytesRead);
-                    current.appendText(chunk);
-                }
-                long after = System.currentTimeMillis();
-                hintLb.setText("Log read success! Consume time: "+ String.valueOf((after-before)/ 1000D) + "s");
-                inputStream.close();
+                inputStream = new BufferedInputStream(new FileInputStream(logFile));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+            long before = System.currentTimeMillis();
+            readFile(inputStream);
+            long after = System.currentTimeMillis();
+            hintLb.setText("Log read success! Consume time: "+ String.valueOf((after-before)/ 1000D) + "s");
 
         }else{
             hintLb.setText("Didn't choose any file!");
@@ -239,7 +257,57 @@ public class SearchGuiHandler {
 
     }
 
+    private void readFile(BufferedInputStream inputStream){
+        try{
+
+            int bytesRead = 0;
+            byte[] buff = new byte[4096];
+            while ((bytesRead = inputStream.read(buff)) != -1 ) {
+                // 显示行号
+                String chunk = new String(buff, 0, bytesRead);
+                current.appendText(chunk);
+            }
+
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void handleCompare(ActionEvent actionEvent) {
+        //compare between ori and new log only if both ori and new is belongs to the same path.
+        if (PATH_THE_SAME){
+            //read ori log and set to left
+            current = chooseLog(LEFT_WINDOW);
+            if (current.getText()!=null)
+                current.clear();
+            if (mode==null){
+                //compare file without doing any search
+                mode = ModeFactory.getMode("Log");
+            }
+            BufferedInputStream inputStream= mode.getLogData(ModeFactory.ORI_LOG);
+            readFile(inputStream);
+            //do differ and read it then set to right
+            current = chooseLog(RIGHT_WINDOW);
+            current.clear();
+            mode = ModeFactory.getMode("Compare");
+            CompareMode compare = (CompareMode) mode;
+            BufferedInputStream diff = null;
+            try {
+                diff = compare.compareLogFile();
+                if (diff==null){
+                    hintLb.setText("File size the same,I don't think we have to compare!");
+                }else{
+                    readFile(diff);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }else{
+            hintLb.setText("Path not the same between two log files!Try again");
+        }
 
     }
 
@@ -247,6 +315,7 @@ public class SearchGuiHandler {
         compareLogBtn.setDisable(false);
         compare_menu.setSelected(true);
         log_menu.setSelected(false);
+        searchBtn.setDisable(true);
         hintLb.setText("You are in compare mode!");
     }
 
@@ -254,8 +323,14 @@ public class SearchGuiHandler {
         compareLogBtn.setDisable(true);
         log_menu.setSelected(true);
         compare_menu.setSelected(false);
+        searchBtn.setDisable(false);
         hintLb.setText("You are in log mode!");
     }
+
+    /**
+     * help menu and about dialog handler
+     * @param actionEvent
+     */
 
     public void onHelp(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -278,8 +353,6 @@ public class SearchGuiHandler {
                 textArea.appendText(chunk);
             }
             inputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

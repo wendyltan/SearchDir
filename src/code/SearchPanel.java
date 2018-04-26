@@ -4,102 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class SearchPanel {
 
-
-    public static void main(String[] args){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter a file path below");
-        String path = scanner.next();
-        SearchPanel panel = new SearchPanel();
-
-        List<SDirectory> dirs = new ArrayList<>();
-
-        // retrive filelist
-        if (!path.isEmpty()){
-            try {
-                panel.retrieveInfos(dirs,path,0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        //if dirs not empty
-        if(panel.sortAndShow(dirs)){
-            //log saving
-            LogMode mode = (LogMode) ModeFactory.getMode("Log");
-            try {
-                mode.saveLogFile(path,dirs);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//            //log reading
-//            mode.printLog(mode.getLogData(code.ModeFactory.ORI_LOG));
-        }
-
-
-        //read path and write current status and do compare
-        System.out.println("Please enter new directory to compare");
-        String newPath = scanner.next();
-        dirs.clear();
-        if (newPath.equals(path)){
-            try {
-                panel.retrieveInfos(dirs,path,0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (panel.sortAndShow(dirs)){
-                CompareMode compareMode = (CompareMode) ModeFactory.getMode("Compare");
-                try {
-                    compareMode.compareLogFile(dirs);
-//                    mode.printLog(mode.getLogData(code.ModeFactory.NEW_LOG));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }else {
-            System.out.println("path is not equal,can't compare!the original search path is: "+path);
-        }
-
-    }
-
-    public boolean sortAndShow(List<SDirectory> dirs){
-        //opearate only if dirs is not empty
-        if (!dirs.isEmpty()) {
-//            System.out.println("Please choose sort method:(1/2/3 for alpha,type,date sort");
-//            Scanner choice = new Scanner(System.in);
-            Sort sort ;
-//            switch (choice.nextInt()) {
-//                case 1:
-//                    sort = new code.AlphaSort();
-//                    break;
-//                case 2:
-//                    sort = new code.TypeSort();
-//                    break;
-//                case 3:
-//                    sort = new code.DateSort();
-//                    break;
-//                default:
-//                    sort = new code.AlphaSort();
-//                    break;
-//            }
-            sort = new AlphaSort();
-            //sort and show
-            for (SDirectory dir : dirs) {
-                System.out.print("\\---" + dir.getFileName() + '\n');
-                dir.setSortCriteria(sort);
-                dir.getSortCriteria().sort(FileListManager.getFileList(dir.getFilePath()));
-            }
-            return true;
-        }
-        return false;
-    }
-
-
     public void retrieveInfos(List<SDirectory> dirs , String dirName, int depth) throws IOException {
-
 
         /**
          * 使用此函数获得指定目录下的信息并显示s。

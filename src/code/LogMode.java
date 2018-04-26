@@ -5,9 +5,15 @@ import java.util.List;
 
 public class LogMode extends ModeFactory {
 
-    public void saveLogFile(String dirName, List<SDirectory> dirs) throws IOException {
+    public void saveLogFile(String dirName, List<SDirectory> dirs,int logType) throws IOException {
         System.out.println("Current directory:"+dirName);
-        File file  = new File("ori.txt");
+        File file=null;
+        if (logType==ModeFactory.ORI_LOG){
+            file  = new File("ori.txt");
+        }else if (logType==ModeFactory.NEW_LOG){
+            file = new File("new.txt");
+        }
+
         StringBuilder contentBuilder = new StringBuilder();
         for (SDirectory directory : dirs){
             List<SFile> tempList = FileListManager.getFileList(directory.getFilePath());

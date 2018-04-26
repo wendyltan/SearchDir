@@ -40,7 +40,7 @@ public class CompareMode extends ModeFactory {
     }
 
 
-    public void compareLogFile(List<SDirectory> dirs) throws IOException {
+    public BufferedInputStream compareLogFile() throws IOException {
         //读取输入路径的目录与之前存起来的目录log进行比较
         File file = new File("ori.txt");
         File comFile = new File("new.txt");
@@ -48,30 +48,10 @@ public class CompareMode extends ModeFactory {
         if (!file.exists()){
             System.out.println("The original log file doesn't exist!");
         }else{
-            //将第二次的保存到一个log文件
-            StringBuilder contentBuilder = new StringBuilder();
-            for (SDirectory directory : dirs){
-                List<SFile> tempList = FileListManager.getFileList(directory.getFilePath());
-                contentBuilder.append(directory.getFileInfo()+'\n');
-                for (SFile sfile : tempList){
-                    contentBuilder.append("----\t"+sfile.getFileInfo()+'\n');
-                }
-
-            }
-            comFile.createNewFile(); // 创建新文件
-            BufferedWriter out = new BufferedWriter(new FileWriter(comFile));
-            out.write(contentBuilder.toString());
-            out.flush(); // 把缓存区内容压入文件
-            out.close(); // 最后记得关闭文件
-
-
             //比较两个logfile
-            System.out.println("======Start Compare!=======");
-            long startTime = System.currentTimeMillis();
             BufferedReader oldReader=null;
             BufferedReader newReader=null;
             BufferedWriter rbw=null;
-
             try{
                 oldReader = new BufferedReader(new FileReader(file));
                 newReader = new BufferedReader(new FileReader(comFile));
@@ -95,11 +75,8 @@ public class CompareMode extends ModeFactory {
                     }
                 }else{
                     System.out.println("File size the same,I don't think we need to compare!");
+                    return null;
                 }
-
-                long endTime = System.currentTimeMillis();
-                System.out.println("======Compare Over!=======");
-                System.out.println("Time Spending:" + ((endTime - startTime) / 1000D) + "s");
             } catch (IOException e){
                 e.printStackTrace();
             }finally {
@@ -120,7 +97,10 @@ public class CompareMode extends ModeFactory {
                     }
                 }
             }
+            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream("differ.txt"));
+            return inputStream;
         }
+        return null;
 
     }
 
