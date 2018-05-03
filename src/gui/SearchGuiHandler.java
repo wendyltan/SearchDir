@@ -1,6 +1,7 @@
 package gui;
 
 import code.*;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -46,11 +47,11 @@ public class SearchGuiHandler {
 
 
     private List<SDirectory> dirs = new ArrayList<>();
-    private SearchPanel panel = new SearchPanel();
+    private InfoGetter info = new InfoGetter();
     private String path;
     private ModeFactory mode;
     private TextArea current;
-    private Sort sort;
+    private Sort sort=null;
     //显示在左窗口还是右窗口
     private static final int LEFT_WINDOW = 0 ;
     private static final int RIGHT_WINDOW = 1;
@@ -142,7 +143,7 @@ public class SearchGuiHandler {
         // retrive filelist
         if (!path.isEmpty()) {
             try {
-                panel.retrieveInfos(dirs, path, 0);
+                info.retrieveInfos(dirs, path, 0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -257,21 +258,33 @@ public class SearchGuiHandler {
 
     }
 
+    /**
+     * this function handle file read logic
+     * @param inputStream
+     */
     private void readFile(BufferedInputStream inputStream){
-        try{
+        //新开线程防止主线程卡顿
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
 
-            int bytesRead = 0;
-            byte[] buff = new byte[4096];
-            while ((bytesRead = inputStream.read(buff)) != -1 ) {
-                // 显示行号
-                String chunk = new String(buff, 0, bytesRead);
-                current.appendText(chunk);
+                    int bytesRead = 0;
+                    byte[] buff = new byte[4096];
+                    while ((bytesRead = inputStream.read(buff)) != -1 ) {
+                        // 显示行号
+                        String chunk = new String(buff, 0, bytesRead);
+                        //非ui进程更新界面
+                        Platform.runLater(()->current.appendText(chunk));
+                    }
+
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        }).start();
 
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void handleCompare(ActionEvent actionEvent) {
@@ -289,12 +302,14 @@ public class SearchGuiHandler {
             readFile(inputStream);
             //do differ and read it then set to right
             current = chooseLog(RIGHT_WINDOW);
-            current.clear();
+            if (current != null) {
+                current.clear();
+            }
             mode = ModeFactory.getMode("Compare");
             CompareMode compare = (CompareMode) mode;
             BufferedInputStream diff = null;
             try {
-                diff = compare.compareLogFile();
+                diff = compare != null ? compare.compareLogFile() : null;
                 if (diff==null){
                     hintLb.setText("File size the same,I don't think we have to compare!");
                 }else{

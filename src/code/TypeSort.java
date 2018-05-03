@@ -16,9 +16,5 @@ public class TypeSort implements Sort {
             }
         });
 
-        for (SFile file:fileList){
-            System.out.println("\t"+file.getFileInfo());
-        }
-
     }
 }

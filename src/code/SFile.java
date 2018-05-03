@@ -46,6 +46,9 @@ public class SFile {
         return fileName;
     }
 
+    public void setLastEditStr(String lastEditStr) {
+        this.lastEditStr = lastEditStr;
+    }
 
     public String getLastEdit() {
         return lastEditStr;
@@ -76,8 +79,6 @@ public class SFile {
     }
 
     public String getFileInfo(){
-//        if (fileType=="directory")
-//            return String.format("%s,%s,%s\n",fileName,fileType,lastEditStr);
         return String.format("%s,%s,%s,%s\n",fileName, fileSizeStr,fileType,lastEditStr);
     }
 

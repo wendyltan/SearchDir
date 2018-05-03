@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchPanel {
+public class InfoGetter {
 
     public void retrieveInfos(List<SDirectory> dirs , String dirName, int depth) throws IOException {
 
@@ -67,6 +67,23 @@ public class SearchPanel {
                 }
 
             }
+        }
+
+        //每一轮都重新计算最外面那个文件夹有多大。最后计算整个文件夹列表中最大那个文件夹（树顶）
+        long i = 0;
+        for(SDirectory dir : dirs){
+            if (i>0){
+                i+=dir.getFileSize();
+            }
+            i++;
+        }
+        SDirectory outer = dirs.get(0);
+        outer.setFileSize(i);
+        outer.setFileSizeStr(outer.getPrintSize(i));
+        if (outer.getFileType().equals("directory")&&outer.getFileName().endsWith(":\\")){
+            outer.setFileType("Disk root");
+            outer.setLastEditStr("");
+            System.out.println(outer.getFileName());
         }
 
     }
