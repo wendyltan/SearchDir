@@ -25,17 +25,17 @@ public class InfoGetter implements CondictionFilter {
             e.printStackTrace();
         }
 
-        //doing search operation (test)
         List<SFile> matches = null;
 
         TypeCondition type = new TypeCondition(getter, "doc");
         DateCondition date = new DateCondition(type, "before 2015-12-20");
+        SizeCondiction size = new SizeCondiction(date,"> 100B");
         int counter = 0;
         System.out.println("Printing out search result!...");
         System.out.println("========================================");
 
         for (SDirectory directory : directories) {
-            matches = date.searchAndFind(FileListManager.getFileList(directory.getFilePath()));
+            matches = size.searchAndFind(FileListManager.getFileList(directory.getFilePath()));
 
             if (matches != null) {
                 for (SFile file : matches) {
