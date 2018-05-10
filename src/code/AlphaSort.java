@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class AlphaSort implements Sort {
+public class AlphaSort implements Sort{
 
 
     @Override
@@ -21,4 +21,5 @@ public class AlphaSort implements Sort {
         });
 
     }
+
 }
