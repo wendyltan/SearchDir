@@ -1,22 +1,21 @@
-package code;
+package sort;
 
-import java.text.Collator;
+import code.SFile;
+import sort.Sort;
+
 import java.util.Comparator;
 import java.util.List;
 
+public class TypeSort implements Sort {
 
-public class AlphaSort implements Sort {
 
 
     @Override
     public void sort(List<SFile> fileList) {
-
-
         fileList.sort(new Comparator<SFile>() {
             @Override
             public int compare(SFile o1, SFile o2) {
-                Comparator<Object> cmp = Collator.getInstance(java.util.Locale.CHINA);
-                return ((Collator) cmp).compare(o1.getFileName(),o2.getFileName());
+                return o1.getFileType().compareTo(o2.getFileType());
             }
         });
 

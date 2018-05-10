@@ -1,11 +1,55 @@
-package code;
+package filter;
+
+import code.FileListManager;
+import code.SDirectory;
+import code.SFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-public class InfoGetter {
+public class InfoGetter implements CondictionFilter {
+
+    public static void main(String[] args) {
+        List<SDirectory> directories = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        // 创建被装饰者
+        InfoGetter getter = new InfoGetter();
+        System.out.println("Please enter file path:");
+        String path = scanner.nextLine();
+        try {
+            getter.retrieveInfos(directories, path, 0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<SFile> matches = null;
+
+        TypeCondition type = new TypeCondition(getter, "doc");
+        DateCondition date = new DateCondition(type, "before 2015-12-20");
+        SizeCondiction size = new SizeCondiction(date,"> 100B");
+        int counter = 0;
+        System.out.println("Printing out search result!...");
+        System.out.println("========================================");
+
+        for (SDirectory directory : directories) {
+            matches = size.searchAndFind(FileListManager.getFileList(directory.getFilePath()));
+
+            if (matches != null) {
+                for (SFile file : matches) {
+                    System.out.println(file.getFileInfo());
+                }
+                counter += matches.size();
+            }
+
+
+        }
+
+        System.out.println("========================================");
+        System.out.println("Search finish with " + counter + " results");
+    }
 
     public void retrieveInfos(List<SDirectory> dirs , String dirName, int depth) throws IOException {
 
@@ -17,7 +61,7 @@ public class InfoGetter {
         File dirFile = new File(dirName);
         //判断该文件或目录是否存在，不存在时在控制台输出提醒
         if (!dirFile.exists()) {
-            System.out.println("Do not exit");
+            System.out.println("Do not exists!");
             return;
         }
         //判断如果不是一个目录，就判断是不是一个文件，是文件则输出文件路径
@@ -88,4 +132,9 @@ public class InfoGetter {
 
     }
 
+
+    @Override
+    public List<SFile> searchAndFind(List<SFile> files) {
+        return files;
+    }
 }
