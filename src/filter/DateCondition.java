@@ -1,4 +1,6 @@
-package code;
+package filter;
+
+import code.SFile;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,16 +11,14 @@ import java.util.List;
 public class DateCondition extends Condiction {
     private  String dateCon = null;
 
-    public DateCondition(CondictionFilter condictionFilter,String condition) {
+    public DateCondition(CondictionFilter condictionFilter, String condition) {
         super(condictionFilter);
         this.dateCon = condition;
     }
 
     @Override
-    public List<SFile> searchAndFind(String path) {
-
-        super.searchAndFind(path);
-        List<SFile> files = FileListManager.getFileList(path);
+    public List<SFile> searchAndFind(List<SFile> files) {
+        files = super.searchAndFind(files);
         List<SFile> tempfiles = new ArrayList<>();
 
         String[] parts = this.dateCon.split(" ");
@@ -57,7 +57,10 @@ public class DateCondition extends Condiction {
             }
 
         }
-        return tempfiles;
+        files = tempfiles;
+
+        return files;
+
 
     }
 }

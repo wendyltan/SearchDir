@@ -1,4 +1,7 @@
-package code;
+package sort;
+
+import code.SFile;
+import sort.Sort;
 
 import java.util.Comparator;
 import java.util.List;

@@ -1,6 +1,7 @@
 package gui;
 
 import code.*;
+import filter.InfoGetter;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,6 +13,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
+import sort.AlphaSort;
+import sort.DateSort;
+import sort.Sort;
+import sort.TypeSort;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
