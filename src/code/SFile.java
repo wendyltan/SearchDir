@@ -34,6 +34,12 @@ public class SFile {
         filePath = file.getCanonicalPath();
     }
 
+
+    /**
+     * All kinds of setters and getters
+     *
+     */
+
     public void setFileSizeStr(String fileSizeStr) {
         this.fileSizeStr = fileSizeStr;
     }

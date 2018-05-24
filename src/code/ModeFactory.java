@@ -1,7 +1,4 @@
 package code;
-
-import org.jetbrains.annotations.Nullable;
-
 import java.io.*;
 
 public abstract class ModeFactory {
@@ -56,7 +53,7 @@ public abstract class ModeFactory {
         System.out.println("Log print success!");
     }
 
-    @Nullable
+
     public static ModeFactory getMode(String mode){
         if (mode=="Log"){
             return new LogMode();

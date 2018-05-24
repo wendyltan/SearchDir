@@ -12,7 +12,10 @@ import java.util.Scanner;
 
 public class InfoGetter implements CondictionFilter {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        /**
+         * only to show decorator pattern in a hard-coding way...
+         */
         List<SDirectory> directories = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         // 创建被装饰者
@@ -49,6 +52,8 @@ public class InfoGetter implements CondictionFilter {
 
         System.out.println("========================================");
         System.out.println("Search finish with " + counter + " results");
+
+
     }
 
     public void retrieveInfos(List<SDirectory> dirs , String dirName, int depth) throws IOException {
