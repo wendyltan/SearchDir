@@ -12,13 +12,15 @@ import java.util.Scanner;
 
 public class InfoGetter implements CondictionFilter {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
+
         /**
          * only to show decorator pattern in a hard-coding way...
          */
         List<SDirectory> directories = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
-        // 创建被装饰者
+
+        // create a decoratee
         InfoGetter getter = new InfoGetter();
         System.out.println("Please enter file path:");
         String path = scanner.nextLine();
@@ -30,6 +32,7 @@ public class InfoGetter implements CondictionFilter {
 
         List<SFile> matches = null;
 
+        //using decorator pattern
         TypeCondition type = new TypeCondition(getter, "doc");
         DateCondition date = new DateCondition(type, "before 2015-12-20");
         SizeCondiction size = new SizeCondiction(date,"> 100B");
@@ -39,7 +42,6 @@ public class InfoGetter implements CondictionFilter {
 
         for (SDirectory directory : directories) {
             matches = size.searchAndFind(FileListManager.getFileList(directory.getFilePath()));
-
             if (matches != null) {
                 for (SFile file : matches) {
                     System.out.println(file.getFileInfo());
@@ -49,7 +51,6 @@ public class InfoGetter implements CondictionFilter {
 
 
         }
-
         System.out.println("========================================");
         System.out.println("Search finish with " + counter + " results");
 
@@ -59,7 +60,7 @@ public class InfoGetter implements CondictionFilter {
     public void retrieveInfos(List<SDirectory> dirs , String dirName, int depth) throws IOException {
 
         /**
-         * 使用此函数获得指定目录下的信息并显示s。
+         * Search given directory path and store files and dirs' info iterately into a list
          */
         //获取pathName的File对象
 

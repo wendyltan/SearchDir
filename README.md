@@ -1,29 +1,30 @@
 # SearchDir
-OOA&D 课程设计目录搜索差异比较程序
+Object-Oriented Analysis and design class project for directory searching and difference
+comparison.
 
-## 构成
-- code:存放主要的代码
-- filter :存放过滤筛选有关的代码
-- gui：存放于界面有关的代码
-- sort : 存放排序有关的代码
+## Basic Structure
+- code: Store main model class's codes and factory class's codes,using `Factory pattern` here.
+- filter: Store codes related to condition search ,using `Decorator pattern` here.
+- gui：Codes about gui.Here I'm using JavaFX to build the interface
+- sort: Store codes related to sorting directory files according to some rules,using `Strategy pattern` here.
 
-## 设计
-- 使用SFile代表文件
-- 使用SDirectory代表目录
-- 使用FileListManager中的哈希表存储目录下的文件
-- 使用Sort接口，并让其他排序方法实现它
-- 使用CondictionFilter接口，作为装饰器模式的祖先类。
-- 使用模式工厂ModeFactory，并让**日志模式**和**差异模式**继承它
-- InfoGetter获取文件目录信息，让其作为被装饰者，可以获得经过过滤条件`Condiction`过滤后的文件信息。
 
-## 使用方法（目前）
-- 运行`SearchGui`
-- 或者`InfoGetter.main()`
-## 运行截图
+## Design
+- Use SFile to represent file object
+- Use SDirectory to represent directory object
+- Use FileListManager's hashTable to store specific directory's files info
+- Use Sort interface，and let other sorting method implements it
+- Use CondictionFilter interface，as ancient class of other condition filters
+- Use ModeFactory，let**LogMode**and**CompareMode**to extend it
+- InfoGetter, get directory infos and make itself a decoratee,become capable to retrieve file infos filtered by`Condiction`
+
+## Usage
+- Run `SearchGui` for most of the functions with nice interface
+- Or `InfoGetter.main()` for only search by some criterias
+## Screenshots
 
 ### 主界面：
 ![main](/screenshot/main.png)
-
 
 ### 关于界面：
 ![about](/screenshot/about.png)
@@ -31,10 +32,23 @@ OOA&D 课程设计目录搜索差异比较程序
 ### 差异比较：
 ![compare](/screenshot/compare.png)
 
-## 当前功能
-- 给出目录，可以遍历目录并打印排序后的目录结构
-- 可以存储目录信息到日志文件
-- 可以随时读取已有的日志文件
-- 可以进行新旧日志文件的差异比较并输出到`differ`文件中
-- 可以根据筛选条件*文件大小*，*文件类型*，*文件最后修改时间*对信息排序后在控制台输出
+## What can it do?
++ Normal mode:
+    - Given a directory path,outputs all directories and files' info on gui.
+    - Automatically save above infos into a log file.
+    - Be able to choose sorting method through a combobox.
+    - Read log files that are already exist through gui.
+    - If enter the same path twice into search box to search infos, it will 
+    build a `new.txt` log file.
+    - Entering different path to search in this mode won't build new log file(or can't update new log)
 
++ Compare mode:
+    - If info of searched dirs have changed on your machine,when in compared mode,
+    it will generate a `differ.txt` file to show the old and new structure's difference
+    - Make sure to have an old and new log file of same path first!(Otherwise compare will be meaningless)
+
++ Command line mode(InfoGetter):
+    - Accoring to *fileSize*，*fileType*，*fileLastEdit* to search for matches and output in the console.
+
+## Noted
+I tried to make `SFile` class integrated with `builder pattern`,but I soon found it unnecessary and remove the code.
