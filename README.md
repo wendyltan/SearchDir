@@ -10,13 +10,13 @@ comparison.
 
 
 ## Design
-- Use SFile to represent file object
-- Use SDirectory to represent directory object
-- Use FileListManager's hashTable to store specific directory's files info
-- Use Sort interface，and let other sorting method implements it
-- Use CondictionFilter interface，as ancient class of other condition filters
-- Use ModeFactory，let**LogMode**and**CompareMode**to extend it
-- InfoGetter, get directory infos and make itself a decoratee,become capable to retrieve file infos filtered by`Condiction`
+- Use `SFile` to represent file object
+- Use `SDirectory` to represent directory object
+- Use `FileListManager`'s hashTable to store specific directory's files info
+- Use `Sort` interface，and let other sorting method implements it
+- Use `CondictionFilter` interface，as ancient class of other condition filters
+- Use `ModeFactory`，let **LogMode** and **CompareMode** to extend it
+- `InfoGetter`, get directory infos and make itself a decoratee,become capable to retrieve file infos filtered by`Condiction`
 
 ## Usage
 - Run `SearchGui` for most of the functions with nice interface
