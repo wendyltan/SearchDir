@@ -14,7 +14,7 @@ public class SFile {
     protected String fileName;
     protected long fileSize;
     protected final String filePath;
-    protected final long lastEditDate;
+    protected long lastEditDate;
     protected String fileType;
 
     protected String lastEditStr;

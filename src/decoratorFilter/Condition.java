@@ -4,13 +4,13 @@ import builderModel.SFile;
 
 import java.util.List;
 
-public abstract class Condiction implements CondictionFilter {
+public abstract class Condition implements ConditionFilter {
 
-    CondictionFilter filter;
+    ConditionFilter filter;
 
 
-    public Condiction(CondictionFilter condictionFilter){
-        this.filter = condictionFilter;
+    public Condition(ConditionFilter conditionFilter){
+        this.filter = conditionFilter;
     }
 
 

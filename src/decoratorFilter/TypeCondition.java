@@ -5,10 +5,10 @@ import builderModel.SFile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeCondition extends Condiction {
+public class TypeCondition extends Condition {
     private  String typeCon = null;
-    public TypeCondition(CondictionFilter condictionFilter, String condiction) {
-        super(condictionFilter);
+    public TypeCondition(ConditionFilter conditionFilter, String condiction) {
+        super(conditionFilter);
         this.typeCon = condiction;
     }
 

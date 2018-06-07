@@ -4,7 +4,7 @@ import builderModel.SFile;
 
 import java.util.List;
 
-public interface CondictionFilter {
+public interface ConditionFilter {
 
     List<SFile> searchAndFind(List<SFile> files);
 }

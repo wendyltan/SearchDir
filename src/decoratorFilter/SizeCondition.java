@@ -5,10 +5,10 @@ import builderModel.SFile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SizeCondiction extends Condiction {
+public class SizeCondition extends Condition {
     private String sizeCon=null;
-    public SizeCondiction(CondictionFilter condictionFilter,String condiction) {
-        super(condictionFilter);
+    public SizeCondition(ConditionFilter conditionFilter, String condiction) {
+        super(conditionFilter);
         this.sizeCon = condiction;
     }
 

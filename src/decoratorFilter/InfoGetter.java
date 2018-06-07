@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class InfoGetter implements CondictionFilter {
+public class InfoGetter implements ConditionFilter {
 
     public static void main(String[] args){
 
@@ -41,7 +41,7 @@ public class InfoGetter implements CondictionFilter {
         String sizeCondition = scanner.nextLine();
         TypeCondition type = new TypeCondition(getter, fileCondition);
         DateCondition date = new DateCondition(type, dateCondition);
-        SizeCondiction size = new SizeCondiction(date,sizeCondition);
+        SizeCondition size = new SizeCondition(date,sizeCondition);
         int counter = 0;
         System.out.println("Printing out search result!...");
         System.out.println("========================================");

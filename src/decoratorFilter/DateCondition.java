@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DateCondition extends Condiction {
+public class DateCondition extends Condition {
     private  String dateCon = null;
 
-    public DateCondition(CondictionFilter condictionFilter, String condition) {
-        super(condictionFilter);
+    public DateCondition(ConditionFilter conditionFilter, String condition) {
+        super(conditionFilter);
         this.dateCon = condition;
     }
 
