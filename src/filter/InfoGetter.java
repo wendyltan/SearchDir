@@ -33,15 +33,21 @@ public class InfoGetter implements CondictionFilter {
         List<SFile> matches = null;
 
         //using decorator pattern
-        TypeCondition type = new TypeCondition(getter, "doc");
-        DateCondition date = new DateCondition(type, "before 2015-12-20");
-        SizeCondiction size = new SizeCondiction(date,"> 100B");
+        System.out.println("Please enter fileType(for example,doc)");
+        String fileCondition = scanner.nextLine();
+        System.out.println("Please enter time constraint(for example,before/after/equals yyyy-mm-dd)");
+        String dateCondition = scanner.nextLine();
+        System.out.println("Please enter size constraint(for example, >/=/< 100B/KB/GB");
+        String sizeCondition = scanner.nextLine();
+        TypeCondition type = new TypeCondition(getter, fileCondition);
+        DateCondition date = new DateCondition(type, dateCondition);
+        SizeCondiction size = new SizeCondiction(date,sizeCondition);
         int counter = 0;
         System.out.println("Printing out search result!...");
         System.out.println("========================================");
 
         for (SDirectory directory : directories) {
-            matches = size.searchAndFind(FileListManager.getFileList(directory.getFilePath()));
+            matches = size.searchAndFind(FileListManager.getInstance().getFileList(directory.getFilePath()));
             if (matches != null) {
                 for (SFile file : matches) {
                     System.out.println(file.getFileInfo());
@@ -83,7 +89,7 @@ public class InfoGetter implements CondictionFilter {
         dirs.add(directory);
 
         List<SFile> files = new ArrayList<>();
-        FileListManager.addFileList(directory.getFilePath(),files);
+        FileListManager.getInstance().addFileList(directory.getFilePath(),files);
 
         //获取此目录下的所有文件名与目录名
         String[] fileList = dirFile.list();
@@ -103,12 +109,12 @@ public class InfoGetter implements CondictionFilter {
 
                     //使用文件类保存信息
                     SFile sfile = new SFile(file);
-                    FileListManager.updateFileList(directory.getFilePath(),sfile);
+                    FileListManager.getInstance().updateFileList(directory.getFilePath(),sfile);
 
                     //计算目录类的占空间大小
                     long size = 0;
 
-                    for (SFile f: FileListManager.getFileList(directory.getFilePath())){
+                    for (SFile f: FileListManager.getInstance().getFileList(directory.getFilePath())){
                         size = size +f.getFileSize();
                     }
                     directory.setFileSize(size);

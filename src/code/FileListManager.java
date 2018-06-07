@@ -10,7 +10,20 @@ public class FileListManager {
      */
 
 
-    public static void addFileList(String path,List<SFile> fileList){
+    /**
+     * 使用单例模式
+     */
+    private static FileListManager manager = new FileListManager();
+
+    private FileListManager(){
+
+    }
+
+    public static FileListManager getInstance(){
+        return manager;
+    }
+
+    public void addFileList(String path,List<SFile> fileList){
         dirFiles.put(path,fileList);
     }
 
@@ -19,11 +32,11 @@ public class FileListManager {
      * @return
      */
 
-    public static List<SFile> getFileList(String path){
+    public List<SFile> getFileList(String path){
         return dirFiles.get(path);
     }
 
-    public static void updateFileList(String path,SFile file){
+    public void updateFileList(String path,SFile file){
         if (dirFiles.containsKey(path)){
             List<SFile> files = dirFiles.get(path);
             files.add(file);
@@ -31,7 +44,7 @@ public class FileListManager {
         }
     }
 
-    public static HashMap<String,List<SFile>> dirFiles=new HashMap<String,List<SFile>>();
+    private static HashMap<String,List<SFile>> dirFiles=new HashMap<String,List<SFile>>();
 
 
 

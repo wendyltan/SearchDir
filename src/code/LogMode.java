@@ -16,7 +16,7 @@ public class LogMode extends ModeFactory {
 
         StringBuilder contentBuilder = new StringBuilder();
         for (SDirectory directory : dirs){
-            List<SFile> tempList = FileListManager.getFileList(directory.getFilePath());
+            List<SFile> tempList = FileListManager.getInstance().getFileList(directory.getFilePath());
             contentBuilder.append(directory.getFileInfo()+'\n');
             for (SFile sfile : tempList){
                 contentBuilder.append("----\t"+sfile.getFileInfo()+'\n');

@@ -211,7 +211,7 @@ public class SearchGuiHandler {
         if (!dirs.isEmpty()) {
             for (SDirectory dir : dirs) {
                 dir.setSortCriteria(sort);
-                dir.getSortCriteria().sort(FileListManager.getFileList(dir.getFilePath()));
+                dir.getSortCriteria().sort(FileListManager.getInstance().getFileList(dir.getFilePath()));
             }
             return true;
         }
