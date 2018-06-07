@@ -18,10 +18,13 @@ Object-Oriented Analysis and design class project for directory searching and di
 - Use `ModeFactory`，let **LogMode** and **CompareMode** to extend it
 - `InfoGetter`, get directory infos and make itself a decoratee,become capable to retrieve file infos filtered by`Condiction`
 
+## UML Design
+
+![UML](/screenshot/FinalDesign.jpg)
+
 ## Usage
 - Run `SearchGui` for most of the functions with nice interface
 - Or `InfoGetter.main()` for only search by some criterias
-## Screenshots
 
 ## Running screenshots
 
