@@ -1,6 +1,6 @@
-package code;
+package model;
 
-import sort.Sort;
+import sortStrategy.Sort;
 
 import java.io.File;
 import java.io.IOException;

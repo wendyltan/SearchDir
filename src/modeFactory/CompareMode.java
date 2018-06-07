@@ -1,7 +1,6 @@
-package code;
+package modeFactory;
 
 import java.io.*;
-import java.util.List;
 
 public class CompareMode extends ModeFactory {
 

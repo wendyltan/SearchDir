@@ -1,4 +1,4 @@
-package code;
+package modeFactory;
 import java.io.*;
 
 public abstract class ModeFactory {

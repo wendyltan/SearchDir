@@ -1,7 +1,7 @@
 package gui;
 
-import code.*;
-import filter.InfoGetter;
+import modeFactory.*;
+import decoratorFilter.InfoGetter;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,10 +13,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
-import sort.AlphaSort;
-import sort.DateSort;
-import sort.Sort;
-import sort.TypeSort;
+import model.SDirectory;
+import sortStrategy.AlphaSort;
+import sortStrategy.DateSort;
+import sortStrategy.Sort;
+import sortStrategy.TypeSort;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -155,7 +156,7 @@ public class SearchGuiHandler {
             }
         }
         if (!dirs.isEmpty()) {
-            //using current sort method
+            //using current sortStrategy method
             sortDir(dirs);
             long before = System.currentTimeMillis();
 
@@ -203,7 +204,7 @@ public class SearchGuiHandler {
     }
 
     /**
-     * sort directory using selected sort method
+     * sortStrategy directory using selected sortStrategy method
      * @param dirs
      * @return
      */
@@ -220,7 +221,7 @@ public class SearchGuiHandler {
     }
 
     /**
-     * choose textarea according to window code
+     * choose textarea according to window modeFactory
      * @param windowId
      * @return
      */

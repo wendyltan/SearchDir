@@ -1,6 +1,6 @@
-package sort;
+package sortStrategy;
 
-import code.SFile;
+import model.SFile;
 
 import java.text.Collator;
 import java.util.Comparator;

@@ -1,11 +1,14 @@
-package code;
+package modeFactory;
+
+import model.SDirectory;
+import model.SFile;
 
 import java.io.*;
 import java.util.List;
 
 public class LogMode extends ModeFactory {
 
-    public void saveLogFile(String dirName, List<SDirectory> dirs,int logType) throws IOException {
+    public void saveLogFile(String dirName, List<SDirectory> dirs, int logType) throws IOException {
         System.out.println("Current directory:"+dirName);
         File file=null;
         if (logType==ModeFactory.ORI_LOG){

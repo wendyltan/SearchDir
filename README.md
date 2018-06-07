@@ -2,16 +2,17 @@
 Object-Oriented Analysis and design class project for directory searching and difference comparison.
 
 ## Basic Structure
-- code: Store main model classes's codes and factory classes's codes,using `Factory pattern` here.
-- filter: Store codes related to condition search ,using `Decorator pattern` here.
+- model: Store file and directory model class.
+- modeFactory: Store factory classes's codes,using `Factory pattern` here.
+- decoratorFilter: Store codes related to condition search ,using `Decorator pattern` here.
 - gui：Codes about gui.Here I'm using JavaFX to build the interface
-- sort: Store codes related to sorting directory files according to some rules,using `Strategy pattern` here.
+- sortStrategy: Store codes related to sorting directory files according to some rules,using `Strategy pattern` here.
 
 
 ## Design
 - Use `SFile` to represent file object
 - Use `SDirectory` to represent directory object
-- Use `FileListManager`'s hashTable to store specific directory's files info,use `Singleton pattern` to avoid unneeded instance of this manager class.
+- Use `FileListManager` to store specific directory's files info,use `Singleton pattern` to avoid unneeded instance of this manager class.
 - Use `Sort` interface，and let other sorting method implements it
 - Use `CondictionFilter` interface，as ancient class of other condition filters
 - Use `ModeFactory`，let **LogMode** and **CompareMode** to extend it
@@ -60,7 +61,7 @@ Then we know some files were removed from original place.
 
 ### Extra and command mode
 
-You can use other sort method while searching for directories infos:
+You can use other sortStrategy method while searching for directories infos:
 
 ![sort_method](/screenshot/useothersort.png)
 
@@ -93,6 +94,6 @@ And you can search for some files with some condition under command line mode:
     - According to *fileSize*，*fileType*，*fileLastEdit* to search for matches and output in the console.
 
 ## Noted
-I tried to make `SFile` class integrated with `builder pattern`,but I soon found it unnecessary and remove the code.
+I tried to make `SFile` class integrated with `builder pattern`,but I soon found it unnecessary and remove the modeFactory.
 
 If you want to see more about how design pattern is implemented in Java,check out my repo here: [JavaDPImpl](https://github.com/wendyltan/JavaDPImpl)

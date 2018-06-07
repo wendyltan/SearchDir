@@ -1,7 +1,6 @@
-package filter;
+package decoratorFilter;
 
-import code.SFile;
-import filter.CondictionFilter;
+import model.SFile;
 
 import java.util.List;
 

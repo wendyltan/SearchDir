@@ -1,6 +1,6 @@
-package filter;
+package decoratorFilter;
 
-import code.SFile;
+import model.SFile;
 
 import java.util.List;
 

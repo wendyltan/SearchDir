@@ -1,8 +1,8 @@
-package filter;
+package decoratorFilter;
 
-import code.FileListManager;
-import code.SDirectory;
-import code.SFile;
+import FileListManager;
+import model.SDirectory;
+import model.SFile;
 
 import java.io.File;
 import java.io.IOException;
