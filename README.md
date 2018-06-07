@@ -45,7 +45,7 @@ The output will show in left window.Of course you can choose whichever side of w
 
 Now that that directory you search on your disk has changed,it will show new infos at right window at default.
 
-Till now,the program has automatically write info into logs.Now switch to compare mode:
+Till now,the program has automatically written info into logs.Now switch to compare mode:
 
 ![compare](/screenshot/comparemode.png)
 
@@ -61,7 +61,7 @@ Then we know some files were removed from original place.
 
 ### Extra and command mode
 
-You can use other sortStrategy method while searching for directories infos:
+You can use other sorting method while searching for directories infos:
 
 ![sort_method](/screenshot/useothersort.png)
 
@@ -94,5 +94,7 @@ And you can search for some files with some condition under command line mode:
     - According to *fileSize*，*fileType*，*fileLastEdit* to search for matches and output in the console.
 
 ## Noted
+
 If you are confused about the comparison result,check the *ori*,*new* and *differ* log file.
+
 If you want to see more about how design pattern is implemented in Java,check out my repo here: [JavaDPImpl](https://github.com/wendyltan/JavaDPImpl)
