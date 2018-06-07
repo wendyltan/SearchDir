@@ -2,7 +2,7 @@
 Object-Oriented Analysis and design class project for directory searching and difference comparison.
 
 ## Basic Structure
-- model: Store file and directory model class.
+- builderModel: Store file and directory model class.Both using `Builder pattern`.
 - modeFactory: Store factory classes's codes,using `Factory pattern` here.
 - decoratorFilter: Store codes related to condition search ,using `Decorator pattern` here.
 - gui：Codes about gui.Here I'm using JavaFX to build the interface
@@ -86,7 +86,7 @@ And you can search for some files with some condition under command line mode:
     - Entering different path to search in this mode won't build new log file(or can't update new log)
 
 + Compare mode:
-    - If info of searched dirs have changed on your machine,when in compared mode,
+    - If info of searched dirs have changed on your machine,when in compare mode,
     it will generate a `differ.txt` file to show the old and new structure's difference
     - Make sure to have an old and new log file of same path first!(Otherwise compare will be meaningless)
 
@@ -94,6 +94,5 @@ And you can search for some files with some condition under command line mode:
     - According to *fileSize*，*fileType*，*fileLastEdit* to search for matches and output in the console.
 
 ## Noted
-I tried to make `SFile` class integrated with `builder pattern`,but I soon found it unnecessary and remove the modeFactory.
-
+If you are confused about the comparison result,check the *ori*,*new* and *differ* log file.
 If you want to see more about how design pattern is implemented in Java,check out my repo here: [JavaDPImpl](https://github.com/wendyltan/JavaDPImpl)

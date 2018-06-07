@@ -1,4 +1,4 @@
-import model.SFile;
+package builderModel;
 
 import java.util.HashMap;
 import java.util.List;

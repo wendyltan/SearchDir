@@ -1,8 +1,8 @@
 package decoratorFilter;
 
-import FileListManager;
-import model.SDirectory;
-import model.SFile;
+import builderModel.FileListManager;
+import builderModel.SDirectory;
+import builderModel.SFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -79,14 +79,15 @@ public class InfoGetter implements CondictionFilter {
         //判断如果不是一个目录，就判断是不是一个文件，是文件则输出文件路径
         if (!dirFile.isDirectory()) {
             if (dirFile.isFile()) {
-                SFile sfile = new SFile(dirFile);
+                SFile sfile = new SFile.Builder(dirFile).setEditDateStr().setFileSizeStr().build();
                 dirs.add((SDirectory) sfile);
             }
             return;
         }
 
-        SDirectory directory = new SDirectory(dirFile);
+        SDirectory directory = new SDirectory.Builder(dirFile).setEditDateStr().build();
         dirs.add(directory);
+        int index = dirs.indexOf(directory);
 
         List<SFile> files = new ArrayList<>();
         FileListManager.getInstance().addFileList(directory.getFilePath(),files);
@@ -108,7 +109,8 @@ public class InfoGetter implements CondictionFilter {
                 }else{
 
                     //使用文件类保存信息
-                    SFile sfile = new SFile(file);
+//                    SFile sfile = new SFile(file);
+                    SFile sfile = new SFile.Builder(file).setEditDateStr().setFileSizeStr().build();
                     FileListManager.getInstance().updateFileList(directory.getFilePath(),sfile);
 
                     //计算目录类的占空间大小
@@ -117,9 +119,11 @@ public class InfoGetter implements CondictionFilter {
                     for (SFile f: FileListManager.getInstance().getFileList(directory.getFilePath())){
                         size = size +f.getFileSize();
                     }
-                    directory.setFileSize(size);
-                    directory.setFileSizeStr(directory.getPrintSize(size));
 
+                    directory = directory.mBuilder.setFileSize(size).setFileSizeStr(SFile.getPrintSize(size)).build();
+                    //remove and replace the original
+                    dirs.remove(index);
+                    dirs.add(index,directory);
                 }
 
             }
@@ -130,17 +134,16 @@ public class InfoGetter implements CondictionFilter {
         for(SDirectory dir : dirs){
             if (i>0){
                 i+=dir.getFileSize();
+            }else{
+                i++;
             }
-            i++;
+
         }
         SDirectory outer = dirs.get(0);
-        outer.setFileSize(i);
-        outer.setFileSizeStr(outer.getPrintSize(i));
-        if (outer.getFileType().equals("directory")&&outer.getFileName().endsWith(":\\")){
-            outer.setFileType("Disk root");
-            outer.setLastEditStr("");
-            System.out.println(outer.getFileName());
-        }
+        outer = outer.mBuilder.setFileSize(i).setFileSizeStr(SFile.getPrintSize(i))
+                .setFileType("Disk root").setEditDateStr("").build();
+        dirs.remove(0);
+        dirs.add(0,outer);
 
     }
 

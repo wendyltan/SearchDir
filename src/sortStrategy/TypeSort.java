@@ -1,6 +1,6 @@
 package sortStrategy;
 
-import model.SFile;
+import builderModel.SFile;
 
 import java.util.Comparator;
 import java.util.List;
