@@ -36,7 +36,7 @@ In log mode,you can search directories for result,but you can't use compare butt
 
 ![first](/screenshot/searchfirst.png)
 
-The output will show in left window.Of course you can choose whhichever side of window you want by togglling the combobox "left/right"
+The output will show in left window.Of course you can choose whichever side of window you want by toggling the combobox "left/right"
 
 - Second Search
 
@@ -90,7 +90,7 @@ And you can search for some files with some condition under command line mode:
     - Make sure to have an old and new log file of same path first!(Otherwise compare will be meaningless)
 
 + Command line mode(InfoGetter):
-    - Accoring to *fileSize*，*fileType*，*fileLastEdit* to search for matches and output in the console.
+    - According to *fileSize*，*fileType*，*fileLastEdit* to search for matches and output in the console.
 
 ## Noted
 I tried to make `SFile` class integrated with `builder pattern`,but I soon found it unnecessary and remove the code.
