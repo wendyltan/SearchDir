@@ -1,12 +1,12 @@
 package modeFactory;
 import java.io.*;
 
-public abstract class ModeFactory {
+public class ModeFactory {
 
     public static final int ORI_LOG = 0;
     public static final int NEW_LOG = 1;
 
-    public BufferedInputStream getLogData(int log_type){
+    public static BufferedInputStream getLogData(int log_type){
         BufferedInputStream inputStream = null;
         System.out.println("Reading from log file:");
         File file;
@@ -35,26 +35,8 @@ public abstract class ModeFactory {
 
     }
 
-    public void printLog(BufferedInputStream inputStream){
 
-        try{
-            int bytesRead = 0;
-            byte[] buff = new byte[4096];
-            while ((bytesRead = inputStream.read(buff)) != -1 ) {
-                // 显示行号
-                String chunk = new String(buff, 0, bytesRead);
-                System.out.println(chunk);
-            }
-            inputStream.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Log print success!");
-    }
-
-
-    public static ModeFactory getMode(String mode){
+    public static Mode getMode(String mode){
         if (mode=="Log"){
             return new LogMode();
         }else if(mode =="Compare"){

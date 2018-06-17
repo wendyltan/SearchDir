@@ -57,7 +57,7 @@ public class SearchGuiHandler {
     private List<SDirectory> dirs = new ArrayList<>();
     private InfoGetter info = new InfoGetter();
     private String path;
-    private ModeFactory mode;
+    private Mode mode;
     private TextArea current;
     private Sort sort=null;
     //显示在左窗口还是右窗口
@@ -178,10 +178,10 @@ public class SearchGuiHandler {
             //read log and show
             BufferedInputStream inputStream;
             if (!ori_or_new)
-                inputStream = mode.getLogData(ModeFactory.ORI_LOG);
+                inputStream = ModeFactory.getLogData(ModeFactory.ORI_LOG);
             else
-                inputStream = mode.getLogData(ModeFactory.NEW_LOG);
-            readFile(inputStream);
+                inputStream = ModeFactory.getLogData(ModeFactory.NEW_LOG);
+            readFile(inputStream,current);
 
             long after = System.currentTimeMillis();
             hintLb.setText("Consume time: "+ String.valueOf((after-before)/ 1000D) + "s");
@@ -255,7 +255,7 @@ public class SearchGuiHandler {
                 e.printStackTrace();
             }
             long before = System.currentTimeMillis();
-            readFile(inputStream);
+            readFile(inputStream,current);
             long after = System.currentTimeMillis();
             hintLb.setText("Log read success! Consume time: "+ String.valueOf((after-before)/ 1000D) + "s");
 
@@ -270,28 +270,30 @@ public class SearchGuiHandler {
      * this function handle file read logic
      * @param inputStream
      */
-    private void readFile(BufferedInputStream inputStream){
+    private void readFile(BufferedInputStream inputStream,TextArea current){
         //新开线程防止主线程卡顿
-        new Thread(new Runnable() {
+        Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
 
                     int bytesRead = 0;
                     byte[] buff = new byte[4096];
-                    while ((bytesRead = inputStream.read(buff)) != -1 ) {
+                    while ((bytesRead = inputStream.read(buff)) != -1) {
                         // 显示行号
                         String chunk = new String(buff, 0, bytesRead);
                         //非ui进程更新界面
-                        Platform.runLater(()->current.appendText(chunk));
+                        Platform.runLater(() -> current.appendText(chunk));
                     }
 
                     inputStream.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
-        }).start();
+        });
+        t.start();
 
     }
 
@@ -299,34 +301,40 @@ public class SearchGuiHandler {
         //compare between ori and new log only if both ori and new is belongs to the same path.
         if (PATH_THE_SAME){
             //read ori log and set to left
+
             current = chooseLog(LEFT_WINDOW);
-            if (current.getText()!=null)
+            if (current.getText() != null)
                 current.clear();
-            if (mode==null){
+            if (mode == null) {
                 //compare file without doing any search
                 mode = ModeFactory.getMode("Log");
             }
-            BufferedInputStream inputStream= mode.getLogData(ModeFactory.ORI_LOG);
-            readFile(inputStream);
+            BufferedInputStream inputStream = ModeFactory.getLogData(ModeFactory.ORI_LOG);
+            System.out.println(current);
+
+            readFile(inputStream,current);
+
             //do differ and read it then set to right
             current = chooseLog(RIGHT_WINDOW);
-            if (current != null) {
+            if (current.getText()!= null) {
                 current.clear();
             }
             mode = ModeFactory.getMode("Compare");
             CompareMode compare = (CompareMode) mode;
             BufferedInputStream diff = null;
+
             try {
                 diff = compare != null ? compare.compareLogFile() : null;
                 if (diff==null){
                     hintLb.setText("File size the same,I don't think we have to compare!");
                 }else{
-                    readFile(diff);
+                    readFile(diff,current);
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
 
         }else{
             hintLb.setText("Path not the same between two log files!Try again");

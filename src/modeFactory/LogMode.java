@@ -1,13 +1,10 @@
 package modeFactory;
 
-import builderModel.FileListManager;
-import builderModel.SDirectory;
-import builderModel.SFile;
-
+import builderModel.*;
 import java.io.*;
 import java.util.List;
 
-public class LogMode extends ModeFactory {
+public class LogMode implements Mode {
 
     public void saveLogFile(String dirName, List<SDirectory> dirs, int logType) throws IOException {
         System.out.println("Current directory:"+dirName);
@@ -36,4 +33,22 @@ public class LogMode extends ModeFactory {
 
     }
 
+    @Override
+    public void printLog(BufferedInputStream inputStream) {
+
+        try{
+            int bytesRead = 0;
+            byte[] buff = new byte[4096];
+            while ((bytesRead = inputStream.read(buff)) != -1 ) {
+                // 显示行号
+                String chunk = new String(buff, 0, bytesRead);
+                System.out.println(chunk);
+            }
+            inputStream.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Log print success!");
+    }
 }

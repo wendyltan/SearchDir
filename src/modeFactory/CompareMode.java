@@ -2,7 +2,7 @@ package modeFactory;
 
 import java.io.*;
 
-public class CompareMode extends ModeFactory {
+public class CompareMode implements Mode {
 
     private static final int NEW_BIGGER = 0;
     private static final int OLD_BIGGER = 1;
@@ -103,4 +103,22 @@ public class CompareMode extends ModeFactory {
 
     }
 
+    @Override
+    public void printLog(BufferedInputStream inputStream) {
+
+        try{
+            int bytesRead = 0;
+            byte[] buff = new byte[4096];
+            while ((bytesRead = inputStream.read(buff)) != -1 ) {
+                // 显示行号
+                String chunk = new String(buff, 0, bytesRead);
+                System.out.println(chunk);
+            }
+            inputStream.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Log print success!");
+    }
 }
