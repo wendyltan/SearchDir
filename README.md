@@ -2,7 +2,7 @@
 Object-Oriented Analysis and design class project for directory searching and difference comparison.
 
 ## Basic Structure
-- builderModel: Store file and directory model class.Both using `Builder pattern`.
+- builderModel: Store file and directory model class.Both of the model class use `Builder pattern`.
 - modeFactory: Store factory classes's codes,using `Factory pattern` here.
 - decoratorFilter: Store codes related to condition search ,using `Decorator pattern` here.
 - gui：Codes about gui.Here I'm using JavaFX to build the interface
@@ -15,7 +15,7 @@ Object-Oriented Analysis and design class project for directory searching and di
 - Use `FileListManager` to store specific directory's files info,use `Singleton pattern` to avoid unneeded instance of this manager class.
 - Use `Sort` interface，and let other sorting method implements it
 - Use `CondictionFilter` interface，as ancient class of other condition filters
-- Use `ModeFactory`，let **LogMode** and **CompareMode** to extend it
+- Use `ModeFactory`，return objects that implement `Mode` interface.
 - `InfoGetter`, get directory infos and make itself a decoratee,become capable to retrieve file infos filtered by`Condiction`
 
 ## UML Design
@@ -24,7 +24,7 @@ Object-Oriented Analysis and design class project for directory searching and di
 
 ## Usage
 - Run `SearchGui` for most of the functions with nice interface
-- Or `InfoGetter.main()` for only search by some criterias
+- Or `InfoGetter.main()` for only search by some criterias 
 
 ## Running screenshots
 
